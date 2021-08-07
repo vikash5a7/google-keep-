@@ -1,0 +1,40 @@
+<div class="empty-notes" *ngIf="isEmptyTrashedNotesList" align="center">
+  <mat-icon>delete_outline</mat-icon>
+  <h1 class="text">Trash notes will appear here</h1>
+</div>
+
+<div
+  style="text-align: center; padding-top: 10px"
+  *ngIf="!isEmptyTrashedNotesList"
+>
+  <h2 class="text-center">Notes in Trash are</h2>
+</div>
+<div style="flex-wrap: wrap; padding-top: 50px; margin-left: 20px">
+  <div class="getAllNotes">
+    <div *ngFor="let trashNote of notes">
+      <mat-card
+        class="getNotesMat"
+        [ngStyle]="{ 'background-color': trashNote.colour }"
+      >
+        <div class="tile">
+          {{ trashNote.title }}
+        </div>
+        <div class="Des">
+          {{ trashNote.description }}
+        </div>
+        <mat-card-footer>
+          <button mat-icon-button (click)="deletePermanetly(trashNote.id)">
+            <mat-icon matTooltip="Delete forever">delete_forever</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            matTooltip="Restore"
+            (click)="restoreNote(trashNote.id)"
+          >
+            <mat-icon>restore_from_trash</mat-icon>
+          </button>
+        </mat-card-footer>
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "keep-f8158": {
+      "hosting": {
+        "fun-app": [
+          "keep-f8158"
+        ]
+      }
+    }
+  }
+}

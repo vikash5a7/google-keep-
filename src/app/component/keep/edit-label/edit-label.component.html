@@ -1,0 +1,80 @@
+<h6>Edit labels</h6>
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <div>
+    <button
+      type="reset"
+      mat-icon-button
+      matTooltip="Cancel"
+      class="icon-button"
+      (click)="cancel(label)"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div>
+    <mat-form-field appearance="fill" autocomplete="off" color="white">
+      <input
+        matInput
+        id="labelName"
+        placeholder="Create new label"
+        [(ngModel)]="label.name"
+        #labelInput
+      />
+    </mat-form-field>
+  </div>
+  <!-- input field will remain dissabled when the value is empty -->
+  <div>
+    <button
+      mat-icon-button
+      [disabled]="labelInput.value === ''"
+      matTooltip="Create label"
+      class="icon-button"
+      (click)="createLabel(label)"
+    >
+      <mat-icon>check</mat-icon>
+    </button>
+  </div>
+</div>
+<div
+  *ngFor="let label of labelList"
+  fxLayout="row"
+  fxLayoutAlign="space-between center"
+>
+  <div>
+    <button
+      mat-icon-button
+      matTooltip="Delete label"
+      class="icon-button"
+      (click)="deleteLabel(label.id)"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  <div>
+    <input
+      #inputTag
+      matInput
+      [(ngModel)]="label.name"
+      type="text"
+      (change)="detectChange()"
+      autocomplete="off"
+      [readonly]="renameClicked ? 'false' : 'true'"
+    />
+  </div>
+  <div>
+    <button
+      mat-icon-button
+      matTooltip="Rename label"
+      class="icon-button"
+      (click)="renameLabel(label)"
+    >
+      <mat-icon (mouseover)="changeText = true" (mouseout)="changeText = false">
+        {{ changeText ? "check" : "edit" }}</mat-icon
+      >
+    </button>
+  </div>
+</div>
+<mat-divider></mat-divider>
+<div align="end" style="margin-top: 5px">
+  <button mat-button (click)="done(label)">Done</button>
+</div>

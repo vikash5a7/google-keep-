@@ -1,0 +1,62 @@
+<mat-card
+  [ngClass]="isList ? 'getNotesMat' : 'grid-getNotesMat'"
+  [ngStyle]="{ 'background-color': note?.color }"
+  (mouseenter)="show = true"
+>
+  <!--  -->
+  <mat-card-content>
+    <div class="tile">
+      {{ note?.title }}
+      <div *ngIf="!note?.isPin">
+        <div [ngClass]="isList ? 'grid-pin' : 'pin'">
+          <img
+            *ngIf="show"
+            (click)="pinned(note?.id)"
+            src="assets/icon/unpin.svg"
+          />
+        </div>
+      </div>
+      <div id="pin" (click)="pinned(note?.id)" *ngIf="note?.isPin">
+        <a><img *ngIf="show" src="assets/icon/pinned.svg" /></a>
+      </div>
+    </div>
+    <div class="image" *ngIf="note?.image">
+      <img [src]="note?.image" />
+      <button
+        *ngIf="show"
+        mat-icon-button
+        color="primary"
+        (click)="removePic(note.id)"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="Des" (click)="openDialog(note)">
+      {{ note?.description }}
+    </div>
+    <div *ngFor="let label of labelList" style="padding-top: 20px">
+      <mat-chip-list aria-label="Reminder" *ngIf="removableLabel">
+        <mat-chip>
+          {{ label.name }}
+          <mat-icon matChipRemove (click)="removeLabel(note?.id, label.id)"
+            >cancel</mat-icon
+          >
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+
+    <div *ngIf="note.reminder != null">
+      <mat-chip-list aria-label="Reminder" *ngIf="removable">
+        <mat-chip>
+          {{ note.reminder | date: "short" }}
+          <mat-icon matChipRemove (click)="removeReminder(note.id)"
+            >cancel</mat-icon
+          >
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+  </mat-card-content>
+  <div style="padding-left: 1px" *ngIf="show" (click)="show = true">
+    <app-icons class="app-note-list" [note1]="note"></app-icons>
+  </div>
+</mat-card>

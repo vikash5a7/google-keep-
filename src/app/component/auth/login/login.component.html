@@ -1,0 +1,80 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="timer"
+>
+  <p style="font-size: 20px; color: white">please wait...</p>
+</ngx-spinner>
+<div fxLayoutAlign="center center" fxFlexFill>
+  <mat-card fxFlex="28" class="shadow">
+    <app-logo fxLayoutAlign="center center"></app-logo>
+    <div class="text-center">
+      <h3>Sign in</h3>
+      <p>Use your Fundoo Account</p>
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+    <form action="" #loginForm="ngForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="w100">
+        <mat-label>Enter your email</mat-label>
+        <input
+          matInput
+          required
+          email
+          placeholder="Email"
+          [(ngModel)]="form.email"
+          name="email"
+        />
+        <mat-error>Valid Email require</mat-error>
+      </mat-form-field>
+      <div class="right">
+        <a [routerLink]="['/forget-password']"> Forget password ? </a>
+      </div>
+      <mat-form-field appearance="outline" class="w100">
+        <mat-label>Enter your password</mat-label>
+        <input
+          matInput
+          required
+          [type]="hide ? 'password' : 'text'"
+          [(ngModel)]="form.password"
+          name="password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+        <mat-error>Valid password Required</mat-error>
+      </mat-form-field>
+
+      <div fxLayout="row" fxLayoutAlign="space-between" class="mt-3">
+        <button
+          [routerLink]="['/register']"
+          id="registration"
+          mat-button
+          type="button"
+          color="primary"
+        >
+          Create Account
+        </button>
+        <button
+          [disabled]="!loginForm.valid"
+          style="width: 120px"
+          mat-raised-button
+          type="submit"
+          [disabled]="!loginForm.valid"
+          type="submit"
+          color="primary"
+        >
+          Login
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

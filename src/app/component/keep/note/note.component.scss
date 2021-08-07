@@ -1,0 +1,55 @@
+.getNotesMat {
+  padding-top: 14px;
+  margin-top: 21px;
+  max-width: 925px;
+  min-width: 249px;
+  border-style: solid;
+  border-width: 0.1px;
+  min-height: 140px;
+  height: 233px;
+  opacity: initial;
+  border-color: #e2dfdf;
+  border-radius: 9px;
+}
+.grid-getNotesMat {
+  max-width: 380px;
+  min-width: 270px;
+  border-style: solid;
+  border-width: 0.1px;
+  min-height: 160px;
+  opacity: initial;
+  border-color: #e2dfdf;
+  border-radius: 9px;
+  margin: 3px;
+}
+
+.tile {
+  margin-top: 5%;
+  font-size: x-large;
+  display: flex;
+  word-wrap: break-word;
+}
+
+.pin {
+  padding-left: 140px;
+}
+.grid-pin {
+  padding-left: 740px;
+}
+
+.Des {
+  padding-top: 10px;
+  word-wrap: break-word;
+}
+.image {
+  img {
+    height: 127px;
+    width: 197px;
+    padding: 11px;
+  }
+  mat-icon {
+    margin-bottom: 81px;
+    margin-left: -93px;
+    color: red;
+  }
+}

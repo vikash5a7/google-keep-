@@ -1,0 +1,199 @@
+<div class="inconList">
+  <div class="icon">
+    <div style="display: flex" fxLayout="row ">
+      <!-- all the icon at bottom  -->
+      <button
+        mat-icon-button
+        [ngClass]="isList ? 'btn2' : 'g'"
+        [matMenuTriggerFor]="dateMenu"
+      >
+        <mat-icon class="mat-icon-color">add_alert_outline</mat-icon>
+      </button>
+
+      <button
+        [ngClass]="isList ? 'btn2' : 'g'"
+        mat-icon-button
+        class="material-icons-outlined"
+      >
+        <mat-icon class="mat-icon-color">person_add_outline</mat-icon>
+      </button>
+      <button
+        [ngClass]="isList ? 'btn2' : 'g'"
+        [matMenuTriggerFor]="colorlist"
+        #menuTrigger="matMenuTrigger"
+        (mouseover)="menuTrigger.openMenu()"
+        mat-icon-button
+        matTooltip="Add Color"
+      >
+        <mat-icon class="mat-icon-color">palette_outline</mat-icon>
+      </button>
+      <button
+        [ngClass]="isList ? 'btn2' : 'g'"
+        mat-icon-button
+        matTooltip="Add image"
+        (click)="file.click()"
+      >
+        <mat-icon class="mat-icon-color">image</mat-icon>
+      </button>
+      <input
+        style="width: 2px; display: none"
+        type="file"
+        accept="image/*"
+        #file
+      />
+      <button
+        [ngClass]="isList ? 'btn2' : 'g'"
+        mat-icon-button
+        matTooltip="Add image"
+        (click)="archive(note1.id)"
+      >
+        <mat-icon class="mat-icon-color">archive</mat-icon>
+      </button>
+
+      <button
+        [ngClass]="isList ? 'btn2' : 'g'"
+        mat-icon-button
+        matTooltip="More"
+        [matMenuTriggerFor]="menu"
+      >
+        <mat-icon class="mat-icon-color">more_vert</mat-icon>
+      </button>
+      <button
+        *ngIf="isList"
+        [ngClass]="isList ? 'btn2' : 'g'"
+        mat-icon-button
+        matTooltip="Undo"
+        [disabled]="!showUndo"
+      >
+        <mat-icon class="mat-icon-color" [ngClass]="{ disableColor: !showUndo }"
+          >undo</mat-icon
+        >
+      </button>
+      <button
+        *ngIf="isList"
+        [ngClass]="isList ? 'btn2' : 'g'"
+        mat-icon-button
+        matTooltip="Redo"
+      >
+        <mat-icon class="mat-icon-color">redo</mat-icon>
+      </button>
+      <mat-menu #colorlist="matMenu" [hasBackdrop]="false">
+        <span (mouseleave)="menuTrigger.closeMenu()">
+          <div
+            fxLayout="row"
+            fxLayoutGap="18px"
+            style="margin: 4px"
+            *ngFor="let colors of arrayOfColors"
+          >
+            <div *ngFor="let color of colors">
+              <button
+                class="color-btn"
+                [ngStyle]="{
+                  'background-color': color.color,
+                  color: color.color
+                }"
+                (click)="setColor(note1.id, color.color)"
+              ></button>
+            </div>
+          </div>
+        </span>
+      </mat-menu>
+      <mat-menu #menu="matMenu">
+        <button style="outline: 0" mat-menu-item (click)="deleteNote(note1.id)">
+          Delete Note
+        </button>
+        <button mat-menu-item>Add Label</button>
+        <button mat-menu-item (click)="copyNote(note1)">Make a copy</button>
+        <button
+          mat-menu-item
+          [matMenuTriggerFor]="vertebrates"
+          (click)="stopPropagation($event)"
+        >
+          Add Label
+        </button>
+      </mat-menu>
+      <mat-menu #vertebrates="matMenu">
+        <div class="main-div">
+          <mat-card>
+            <mat-card-header>Note Label</mat-card-header>
+            <form (click)="stopPropagation($event)">
+              <div>
+                <mat-form-field
+                  autocomplete="on"
+                  style="background: white; padding: 0px"
+                >
+                  <input
+                    matInput
+                    autocomplete="off"
+                    [ngModelOptions]="{ standalone: true }"
+                    [(ngModel)]="SearchTeram"
+                    color="white"
+                    placeholder="Enter Label"
+                    id="labelName"
+                  />
+                  <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="display-labels">
+                <div *ngFor="let label of labelList | labelSearch: SearchTeram">
+                  <mat-checkbox
+                    (click)="addNoteToLabel(label, note1.id)"
+                  ></mat-checkbox>
+                  <label mat-menu-item style="display: inline">{{
+                    label.name
+                  }}</label>
+                </div>
+              </div>
+              <div align="end ">
+                <button mat-raised-button>Done</button>
+              </div>
+            </form>
+          </mat-card>
+        </div>
+      </mat-menu>
+
+      <mat-menu #vertebrates="matMenu"> </mat-menu>
+
+      <!-- date menu -->
+      <mat-menu #dateMenu="matMenu">
+        <div class="container"><h4>Reminders:</h4></div>
+        <input
+          [(ngModel)]="note.reminder"
+          matInput
+          name="reminder"
+          [ngxMatDatetimePicker]="picker"
+          (ngModelChange)="addReminder(note1.id)"
+        />
+        <ngx-mat-datetime-picker
+          #picker
+          [showSpinners]="true"
+          [showSeconds]="false"
+          [stepHour]="1"
+          [stepMinute]="1"
+          [stepSecond]="1"
+          [touchUi]="false"
+          [enableMeridian]="false"
+          [disableMinute]="false"
+          [hideTime]="false"
+        >
+        </ngx-mat-datetime-picker>
+        <button mat-menu-item (click)="today()">
+          Today &nbsp; &nbsp; &nbsp; &nbsp;{{ todayTime | date: "short" }}
+        </button>
+        <button mat-menu-item (click)="Tomorrow()">
+          Tomorrow &nbsp; &nbsp;{{ tomorrow | date: "short" }}
+        </button>
+        <button mat-menu-item mat-menu-item (click)="(removable == true)">
+          Set Time &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="$any(picker)"
+          ></mat-datepicker-toggle>
+        </button>
+      </mat-menu>
+      <!-- end date menu -->
+      <!-- end here all the icons -->
+    </div>
+  </div>
+</div>

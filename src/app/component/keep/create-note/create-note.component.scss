@@ -1,0 +1,96 @@
+.main {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4%;
+  margin-top: 20px;
+}
+
+.matinputbox {
+  border-radius: 4px;
+  padding: 2px;
+  width: 40em;
+  box-shadow: -1px 1px 5px 2px rgb(0 0 0 / 24%);
+  ::placeholder {
+    font-size: 12px;
+    font-weight: 600;
+  }
+}
+
+.takeNote {
+  width: 593px;
+  margin-left: 10px;
+  border: antiquewhite;
+  padding: 2px;
+}
+
+.box {
+  border-radius: 5px;
+  max-height: 400px;
+  padding: 12px;
+  max-width: 82em;
+  box-shadow: -1px 1px 5px 2px rgb(0 0 0 / 24%);
+}
+.file {
+  img {
+    max-height: 140px;
+    padding: 12px;
+    width: 38em;
+  }
+}
+#title {
+  border: aliceblue;
+  height: 37px;
+  padding: 6px;
+}
+::placeholder {
+  font-size: 14px;
+  font-weight: 400;
+}
+#pindiv {
+  display: flex;
+  justify-content: flex-end;
+}
+#desc {
+  border: aliceblue;
+  height: 37px;
+  padding: 6px;
+}
+
+input:focus {
+  outline: none;
+}
+.close-btn {
+  opacity: 0.6;
+  transition: 0.3s;
+  outline: 0;
+  cursor: pointer;
+  border: none;
+  padding-top: 12px;
+  padding-left: 180px;
+  text-decoration: none;
+  background-color: white;
+}
+.mat-color {
+  color: #64686eed;
+  font-size: 20px;
+}
+
+.iconList {
+  display: flex;
+  justify-content: space-between;
+}
+.mat-icon-color {
+  margin-left: 10px;
+  color: #64686eed;
+  font-size: 15px;
+}
+.color-btn {
+  height: 35px;
+  width: 35px;
+  border-radius: 18px;
+  border: 2px solid;
+  border-color: #dcd9d9;
+}
+.disableColor {
+  color: #b1b7bbed;
+}

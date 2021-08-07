@@ -1,0 +1,19 @@
+<app-create-note></app-create-note>
+<div
+  *ngIf="!isNotePresent"
+  class="empty-notes text-center"
+  style="padding-top: 50px"
+>
+  <mat-icon>label</mat-icon>
+  <h1 class="text">No notes with this label yet</h1>
+</div>
+<div class="notes-display">
+  <div *ngIf="isNotePresent">
+    <small style="padding-left: 207px">Archive</small>
+    <div class="getAllNotes">
+      <div *ngFor="let note of notes">
+        <app-note [note]="note"></app-note>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,217 @@
+<form #myForm="ngForm">
+  <div class="main">
+    <mat-card
+      class="matinputbox"
+      *ngIf="!open"
+      (click)="onClickCreateNoteOpen()"
+      fxLayout="row"
+    >
+      <input matInput class="takeNote" placeholder="Take a note..." />
+      <button id="icons" mat-icon-button matTooltip="Add image">
+        <mat-icon class="mat-color">image</mat-icon>
+      </button>
+    </mat-card>
+    <mat-card
+      class="box"
+      *ngIf="open"
+      fxLayout="column"
+      [ngStyle]="{ 'background-color': cardColor }"
+    >
+      <div *ngIf="currentFileUpload" class="progress mt-2">
+        <div
+          class="progress-bar progress-bar-info"
+          role="progressbar"
+          attr.aria-valuenow="{{ percentage }}"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          [ngStyle]="{ width: percentage + '%' }"
+        >
+          {{ percentage }}%
+        </div>
+      </div>
+      <div id="pindiv">
+        <a
+          ><img
+            id="pin"
+            src="assets/icon/unpin.svg"
+            *ngIf="!note.isPin"
+            (click)="note.isPin = !note.isPin"
+        /></a>
+        <a
+          ><img
+            id="isPinned"
+            src="assets/icon/pinned.svg"
+            *ngIf="note.isPin"
+            (click)="note.isPin = !note.isPin"
+        /></a>
+      </div>
+      <div class="file" *ngIf="imageShow">
+        <img *ngIf="imageShow" [src]="note.image" />
+      </div>
+
+      <input
+        [(ngModel)]="note.title"
+        id="title"
+        matInput
+        type="text"
+        name="title"
+        placeholder="Title"
+        [ngStyle]="{ 'background-color': cardColor }"
+      />
+      <input
+        [(ngModel)]="note.description"
+        id="desc"
+        matInput
+        name="description"
+        type="text"
+        placeholder="Take a note..."
+        [ngStyle]="{ 'background-color': cardColor }"
+        (ngModelChange)="detectChangeTitle(note.description)"
+      />
+      <div *ngIf="note.reminder != ''">
+        <mat-chip-list aria-label="Reminder" *ngIf="removable">
+          <mat-chip>
+            {{ note.reminder | date: "short" }}
+            <mat-icon matChipRemove (click)="removeReminder()">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+      <div class="icon">
+        <div style="display: flex" fxLayout="row ">
+          <!-- all the icon at bottom  -->
+          <button mat-icon-button class="btn2" [matMenuTriggerFor]="dateMenu">
+            <mat-icon class="mat-icon-color">add_alert_outline</mat-icon>
+          </button>
+
+          <button mat-icon-button class="material-icons-outlined">
+            <mat-icon class="mat-icon-color">person_add_outline</mat-icon>
+          </button>
+          <button
+            [matMenuTriggerFor]="colorlist"
+            #menuTrigger="matMenuTrigger"
+            (mouseover)="menuTrigger.openMenu()"
+            mat-icon-button
+            matTooltip="Add Color"
+          >
+            <mat-icon class="mat-icon-color">palette_outline</mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Add image" (click)="file.click()">
+            <mat-icon class="mat-icon-color">image</mat-icon>
+          </button>
+          <input
+            style="width: 2px; display: none"
+            type="file"
+            accept="image/*"
+            #file
+            (change)="selectFile($event)"
+          />
+          <button
+            mat-icon-button
+            matTooltip="Add image"
+            (click)="note.archive = !note.archive"
+          >
+            <mat-icon class="mat-icon-color">archive</mat-icon>
+          </button>
+
+          <button mat-icon-button matTooltip="More" [matMenuTriggerFor]="menu">
+            <mat-icon class="mat-icon-color">more_vert</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            matTooltip="Undo"
+            [disabled]="!showUndo"
+            (click)="undo()"
+          >
+            <mat-icon
+              class="mat-icon-color"
+              [ngClass]="{ disableColor: !showUndo }"
+              >undo</mat-icon
+            >
+          </button>
+          <button
+            mat-icon-button
+            matTooltip="Redo"
+            [disabled]="!showRedo"
+            (click)="redo()"
+          >
+            <mat-icon
+              class="mat-icon-color"
+              [ngClass]="{ disableColor: !showRedo }"
+              >redo</mat-icon
+            >
+          </button>
+
+          <mat-menu #colorlist="matMenu" [hasBackdrop]="false">
+            <span (mouseleave)="menuTrigger.closeMenu()">
+              <div
+                fxLayout="row"
+                fxLayoutGap="18px"
+                style="margin: 4px"
+                *ngFor="let colors of arrayOfColors"
+              >
+                <div *ngFor="let color of colors">
+                  <button
+                    (click)="getColor(color.color)"
+                    class="color-btn"
+                    [ngStyle]="{
+                      'background-color': color.color,
+                      color: color.color
+                    }"
+                  ></button>
+                </div>
+              </div>
+            </span>
+          </mat-menu>
+          <mat-menu #menu="matMenu">
+            <button style="outline: 0" mat-menu-item>Delete Note</button>
+            <button mat-menu-item>Add Label</button>
+          </mat-menu>
+
+          <mat-menu #vertebrates="matMenu"> </mat-menu>
+
+          <!-- date menu -->
+          <mat-menu #dateMenu="matMenu">
+            <div class="container"><h4>Reminders:</h4></div>
+            <input
+              [(ngModel)]="note.reminder"
+              matInput
+              name="reminder"
+              [ngxMatDatetimePicker]="picker"
+              (ngModelChange)="detectTime(note.reminder)"
+            />
+            <ngx-mat-datetime-picker #picker> </ngx-mat-datetime-picker>
+            <button mat-menu-item (click)="today()">
+              Today &nbsp; &nbsp; &nbsp; &nbsp;{{ todayTime | date: "short" }}
+            </button>
+            <button mat-menu-item (click)="Tomorrow()">
+              Tomorrow &nbsp; &nbsp;{{ tomorrow | date: "short" }}
+            </button>
+            <button mat-menu-item mat-menu-item (click)="detectTime1()">
+              Set Time &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="$any(picker)"
+              ></mat-datepicker-toggle>
+            </button>
+          </mat-menu>
+          <!-- end date menu -->
+          <!-- end here all the icons -->
+
+          <div
+            class="div-button"
+            button
+            (click)="onSubmit(); myForm.resetForm()"
+          >
+            <button
+              [ngStyle]="{ 'background-color': cardColor }"
+              class="close-btn"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</form>

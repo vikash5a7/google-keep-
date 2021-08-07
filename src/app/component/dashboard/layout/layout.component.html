@@ -1,0 +1,211 @@
+<!-- Top bar -->
+<mat-toolbar fxLayoutGap="25px" fxLayout="row" class="toolbar" id="navbar">
+  <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <img class="logo-img" src="assets/googlekeepicon.png" alt="Icon" />
+  <span class="space">Keep</span>
+  <div
+    fxLayoutAlign="center center"
+    fxFlex="60"
+    class="search"
+    [class.searchclick]="searcClick"
+  >
+    <button mat-icon-button fxHide.xs="true">
+      <mat-icon>search</mat-icon>
+    </button>
+    <input
+      [ngModel]="SearchTeram"
+      matTooltip="Search"
+      placeholder="Search"
+      class="input1"
+      [class.searchclick]="searcClick"
+      (click)="searchClick()"
+      (keyup)="search($event)"
+    />
+    <button *ngIf="searcClick" (click)="closeBtn()" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <button mat-icon-button matTooltip="refresh" (click)="refresh()">
+    <mat-icon>refresh</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="settings">
+    <mat-icon>settings</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    *ngIf="!grid"
+    matTooltip="List view"
+    (click)="onClickView()"
+  >
+    <mat-icon>view_stream</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    *ngIf="grid"
+    matTooltip="Grid view"
+    (click)="onClickView()"
+  >
+    <mat-icon>view_module</mat-icon>
+  </button>
+
+  <div class="imageIcon">
+    <img
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      [src]="user?.profile"
+      alt="default"
+    />
+  </div>
+
+  <mat-menu #menu="matMenu" yPosition="below" class="profile-dropdown">
+    <div class="menu">
+      <img
+        class="img-circle"
+        [src]="user?.profile"
+        style="
+          width: 76px;
+          height: 40px;
+          margin-left: 10%;
+          border-radius: 50%;
+          display: block;
+          width: 72x;
+          height: 71px;
+          margin-right: -28px;
+        "
+      />
+      <button
+        mat-mini-fab
+        color="white"
+        matTooltip="Upload new image."
+        (click)="openDialog(user.id)"
+        class="upload"
+        style="top: 30px; right: 4px"
+      >
+        <mat-icon>photo_camera</mat-icon>
+      </button>
+      <input
+        style="width: 2px; display: none"
+        type="file"
+        accept="image/*"
+        #file
+        (change)="selectFile($event)"
+      />
+    </div>
+    <div class="menu-item">
+      <p style="margin-top: 21px">
+        {{ user?.first_name + " " + user?.last_name }}
+      </p>
+      <h3>{{ user?.email }}</h3>
+
+      <button mat-stroked-button class="account-btn">
+        Manage your Account
+      </button>
+
+      <button
+        mat-stroked-button
+        style="top: 14px; width: 164px"
+        mat-button
+        (click)="logout()"
+      >
+        Logout
+      </button>
+    </div>
+  </mat-menu>
+</mat-toolbar>
+<!-- end top bar -->
+
+<hr style="color: gray; background-color: gray" />
+
+<mat-sidenav-container style="background-color: white">
+  <mat-sidenav
+    #sidenav
+    mode="side"
+    fixedInViewport="true"
+    fixedTopGap="55"
+    class="sidenav"
+  >
+    <mat-nav-list>
+      <div mat-list-item>
+        <button
+          mat-button
+          id="sidenav-button"
+          routerLinkActive="router-link-active"
+          [routerLink]="['/dashboard/notes']"
+        >
+          <div fxLayout="row" fxLayoutGap="35px">
+            <mat-icon id="sidenav-icon">lightbulb_outline</mat-icon
+            ><span>Notes</span>
+          </div>
+        </button>
+      </div>
+      <div mat-list-item>
+        <button
+          mat-button
+          id="sidenav-button"
+          routerLinkActive="router-link-active"
+          [routerLink]="['/dashboard/remider']"
+        >
+          <div fxLayout="row" fxLayoutGap="35px">
+            <mat-icon id="sidenav-icon">notifications_none</mat-icon
+            ><span>Reminders</span>
+          </div>
+        </button>
+      </div>
+      <mat-divider></mat-divider>
+      <div mat-list-item>
+        <div *ngFor="let label of labels">
+          <button
+            mat-button
+            id="sidenav-button"
+            routerLinkActive="router-link-active"
+            (click)="navigateToLabel(label.id)"
+          >
+            <div fxLayout="row" fxLayoutGap="35px">
+              <mat-icon id="sidenav-icon">label_none</mat-icon
+              ><span>{{ label.name }}</span>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div mat-list-item>
+        <button mat-button id="sidenav-button" (click)="openEditLabelDialog()">
+          <div fxLayout="row" fxLayoutGap="35px">
+            <mat-icon id="sidenav-icon">create</mat-icon
+            ><span>Edit Labels</span>
+          </div>
+        </button>
+      </div>
+      <mat-divider></mat-divider>
+
+      <div mat-list-item>
+        <button
+          mat-button
+          id="sidenav-button"
+          routerLinkActive="router-link-active"
+          [routerLink]="['/dashboard/archive']"
+        >
+          <div fxLayout="row" fxLayoutGap="35px">
+            <mat-icon id="sidenav-icon">archive</mat-icon><span>Archive</span>
+          </div>
+        </button>
+      </div>
+      <div mat-list-item>
+        <button
+          mat-button
+          id="sidenav-button"
+          routerLinkActive="router-link-active"
+          [routerLink]="['/dashboard/trash']"
+        >
+          <div fxLayout="row" fxLayoutGap="35px">
+            <mat-icon id="sidenav-icon">delete</mat-icon><span>Trash</span>
+          </div>
+        </button>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

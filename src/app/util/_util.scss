@@ -1,0 +1,71 @@
+@import '~@angular/material/theming';
+.w100 {
+  width: 100%;
+}
+.w50 {
+  width: 48%;
+}
+.shadow {
+  @include mat-elevation(8);
+}
+.halfshadow {
+  @include mat-elevation(8);
+}
+
+.right {
+  text-align: right;
+  float: right;
+}
+.example-trigger {
+  display: inline-block;
+}
+.getAllNotes {
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  margin-left: 15%;
+  flex-wrap: wrap;
+}
+
+notes-display {
+  display: flex;
+  flex-direction: column;
+}
+.empty-notes {
+  .material-icons {
+    font-family: "Material Icons";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 120px;
+    color: #64686eed;
+    margin-right: 102px;
+  }
+}
+.text {
+  font-size: 20px;
+  font-weight: 400;
+  text-align: center;
+  color: #64686eed;
+  align-self: center;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 2px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #64686eed; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: black; 
+}

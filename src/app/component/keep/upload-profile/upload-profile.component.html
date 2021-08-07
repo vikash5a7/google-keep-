@@ -1,0 +1,33 @@
+<div class="wrapper">
+  <mat-progress-bar
+    *ngIf="percentage >= 1"
+    mode="determinate"
+    [value]="percentage"
+  ></mat-progress-bar>
+  <div class="container" *ngIf="!displayfiles">
+    <h1>Upload Your new Profile pic</h1>
+
+    <div class="upload-container">
+      <div class="border-container">
+        <input type="file" id="file-upload" (change)="selectFile($event)" />
+        <p>Please select from your computer.</p>
+      </div>
+    </div>
+  </div>
+  <div class="img" *ngIf="displayfiles">
+    <img [src]="profileUrl" alt="" />
+  </div>
+  <div style="padding-left: 194px">
+    <button mat-stroked-button style="margin-right: 16px" (click)="close()">
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!displayfiles"
+      (click)="updateProfile()"
+    >
+      Update Profile
+    </button>
+  </div>
+</div>

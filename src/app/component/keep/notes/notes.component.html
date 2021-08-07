@@ -1,0 +1,62 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-atom"
+  [fullScreen]="true"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>
+
+<div *ngIf="searchBtnClicked">
+  <h1 style="padding-left: 217px">Searched Notes will Display here</h1>
+
+  <div class="notes-display2">
+    <small style="padding-left: 207px">Searched notes</small>
+    <div class="grid-getAllNotes">
+      <div *ngFor="let note of searchNotes">
+        <app-note [note]="note"></app-note>
+      </div>
+      <div *ngIf="searchNotes.length <= 0" class="empty-notes text-center">
+        <mat-icon>sentiment_dissatisfied</mat-icon>
+        <h1 class="text">Not found</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!searchBtnClicked">
+  <app-create-note></app-create-note>
+  <div *ngIf="!isNotePresent" class="empty-notes text-center">
+    <mat-icon>lightbulb</mat-icon>
+    <h1 class="text">Notes you add appear here</h1>
+  </div>
+  <div class="notes-display" *ngIf="isNotePresent">
+    <small style="padding-left: 217px">PINNED</small>
+    <div
+      [ngClass]="isList ? 'list-getAllNotes' : 'grid-getAllNotes'"
+      cdkDropList
+      #pinedList="cdkDropList"
+      [cdkDropListData]="pinedNotes"
+      [cdkDropListConnectedTo]="[UnpinnedNotesList]"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div *ngFor="let note of pinedNotes" cdkDrag>
+        <app-note [note]="note"></app-note>
+      </div>
+    </div>
+    <small style="padding-left: 217px">OTHERS</small>
+    <div
+      cdkDropList
+      class="grid-getAllNotes"
+      [ngClass]="isList ? 'list-getAllNotes' : 'grid-getAllNotes'"
+      #UnpinnedNotesList="cdkDropList"
+      [cdkDropListData]="UnPinedNotes"
+      [cdkDropListConnectedTo]="[pinedList]"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div *ngFor="let note of UnPinedNotes" cdkDrag>
+        <app-note [note]="note"></app-note>
+      </div>
+    </div>
+  </div>
+</div>
