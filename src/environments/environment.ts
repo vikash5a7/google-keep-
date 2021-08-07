@@ -5,13 +5,7 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: 'AIzaSyBK5UuNB4ZCeyM90ADNzNxPGGAB3Qo85o8',
-    authDomain: 'keep-f8158.firebaseapp.com',
-    projectId: 'keep-f8158',
-    storageBucket: 'keep-f8158.appspot.com',
-    messagingSenderId: '997879769074',
-    appId: '1:997879769074:web:b0e967fe95439b012ead6b',
-    measurementId: 'G-HBCTNS5DNR',
+put your... 
   },
 };
 
